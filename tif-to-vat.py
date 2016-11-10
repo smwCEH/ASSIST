@@ -45,6 +45,3 @@ for tif in tif_list:
     tif_path = os.path.join(tif_folder, tif)
     print('TIF:\t\t{0}'.format(tif_path))
     report_array(tif)
-
-
-sys.exit()
