@@ -1,4 +1,5 @@
 import os
+import sys
 from PIL import Image
 import numpy as np
 
@@ -45,3 +46,5 @@ for tif in tif_list:
     print('TIF:\t\t{0}'.format(tif_path))
     report_array(tif)
 
+
+sys.exit()
