@@ -83,7 +83,7 @@ def main():
     lc_scenarios_dict['a_p_x']['image'] = os.path.join(lc_scenarios_folder, r'LC_scenario_A_P_X.tif')
     lc_scenarios_dict['a_p_x']['label'] = 'Expansion of arable land in 5% increments, SSSIs protected'
     lc_scenarios_dict['a_gsn_x'] = collections.OrderedDict()
-    lc_scenarios_dict['a_gsn_x']['image'] = os.path.join(lc_scenarios_folder, r'LC_scenario_A_GSN_X.tif')
+    lc_scenarios_dict['a_gsn_x']['image'] = os.path.join(lc_scenarios_folder, r'LC_scenario_GSN_X.tif')
     lc_scenarios_dict['a_gsn_x']['label'] = 'Expansion of grassland in 5% increments, SSSIs protected'
     print('\n\n')
     print(lc_scenarios_dict)
@@ -92,16 +92,16 @@ def main():
     cropping_scenarios_folder = r'E:\assist\demo-data\Demo Data for Tool\CroppingScenarios'
     cropping_scenarios_dict = collections.OrderedDict()
     cropping_scenarios_dict['baseline'] = collections.OrderedDict()
-    cropping_scenarios_dict['baseline']['image'] = os.path.join(lc_scenarios_folder, r'cropclass_Baseline.tif')
+    cropping_scenarios_dict['baseline']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_Baseline.tif')
     cropping_scenarios_dict['baseline']['label'] = 'current pattern based on LCM+Crops2015'
     cropping_scenarios_dict['o'] = collections.OrderedDict()
-    cropping_scenarios_dict['o']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_O.tif')
+    cropping_scenarios_dict['o']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_scenario_O.tif')
     cropping_scenarios_dict['o']['label'] = 'Expansion of cropping systems to fill the land for which they are best suited, with priority going the most productive systems'
     cropping_scenarios_dict['h'] = collections.OrderedDict()
-    cropping_scenarios_dict['h']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_H.tif')
+    cropping_scenarios_dict['h']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_scenario_H.tif')
     cropping_scenarios_dict['h']['label'] = 'Expasion of industrial crops under simple rotations'
     cropping_scenarios_dict['e'] = collections.OrderedDict()
-    cropping_scenarios_dict['e']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_E.tif')
+    cropping_scenarios_dict['e']['image'] = os.path.join(cropping_scenarios_folder, r'cropclass_scenario_E.tif')
     cropping_scenarios_dict['e']['label'] = 'Expasion of mixed grass-crop systems, spring cropping and complex rotations where land permits'
     print('\n\n')
     print(cropping_scenarios_dict)
@@ -110,13 +110,38 @@ def main():
     regions_folder = r'E:\assist\demo-data\Demo Data for Tool\Regions'
     regions_dict = collections.OrderedDict()
     regions_dict['country'] = collections.OrderedDict()
-    regions_dict['country']['image'] = os.path.join(regions_folder, r'county.tif')
+    regions_dict['country']['image'] = os.path.join(regions_folder, r'country.tif')
     regions_dict['country']['label'] = 'countries'
     regions_dict['euroregion'] = collections.OrderedDict()
     regions_dict['euroregion']['image'] = os.path.join(regions_folder, r'euroregion.tif')
     regions_dict['euroregion']['label'] = 'euroregion'
     print('\n\n')
     print(regions_dict)
+    #
+
+
+    for lc_scenario in lc_scenarios_dict:
+        print('lc_scenario:\t\t{0}'.format(lc_scenario))
+        if lc_scenario == 'baseline':
+            tif = lc_scenarios_dict[lc_scenario]['image']
+            report_array(tif)
+        else:
+            for intensity in range(5, 31, 5):
+                print('intensity:\t\t{0}'.format(intensity))
+                tif = lc_scenarios_dict[lc_scenario]['image']
+                tif = tif.replace('X', str(intensity))
+                print('TIF:\t\t{0}'.format(tif))
+                report_array(tif)
+
+    for cropping_scenario in cropping_scenarios_dict:
+        print('croppping_scenario:\t\t{0}'.format(cropping_scenario))
+        tif = cropping_scenarios_dict[cropping_scenario]['image']
+        report_array(tif)
+
+    for region in regions_dict:
+        print('region:\t\t{0}'.format(region))
+        tif = regions_dict[region]['image']
+        report_array(tif)
 
 
     #
