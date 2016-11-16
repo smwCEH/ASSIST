@@ -128,10 +128,10 @@ def main():
             report_array(tif)
         else:
             for intensity in range(5, 31, 5):
-                print('intensity:\t\t{0}'.format(intensity))
+                print('\tintensity:\t\t{0}'.format(intensity))
                 tif = lc_scenarios_dict[lc_scenario]['image']
                 tif = tif.replace('X', str(intensity))
-                print('TIF:\t\t{0}'.format(tif))
+                print('\ttif:\t\t{0}'.format(tif))
                 report_array(tif)
 
     for cropping_scenario in cropping_scenarios_dict:
@@ -144,6 +144,8 @@ def main():
         tif = regions_dict[region]['image']
         report_array(tif)
 
+
+    #TODO Check that arrays are the same shape before combining/calculating
 
     #
     print('\n\ndone main().')
