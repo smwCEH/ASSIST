@@ -6,14 +6,15 @@ import numpy as np
 
 
 def report_array(tif):
+    print('\t{0:<20}:\t{1}'.format('tif', tif))
     im = Image.open(tif)
     imarray = np.array(im)
-    print('\timarray.shape:\t\t{0}'.format(imarray.shape))
-    print('\timarray.size:\t\t{0}'.format(imarray.size))
+    print('\t{0:<20}:\t{1}'.format('imarray.shape', imarray.shape))
+    print('\t{0:<20}:\t{1}'.format('imarray.size', imarray.size))
     unique = np.unique(imarray, return_counts=True)
-    print('\tnp.unique[0]:\t\t{0}'.format(unique[0]))
-    print('\tnp.unique[1]:\t\t{0}'.format(unique[1]))
-    print('\tnp.unique[1].sum:\t\t{0}'.format(np.sum(unique[1])))
+    print('\t{0:<20}:\t{1}'.format('np.unique[0]', unique[0]))
+    print('\t{0:<20}:\t{1}'.format('np.unique[1]', unique[1]))
+    print('\t{0:<20}:\t{1}'.format('np.unique[1].sum', np.sum(unique[1])))
     del im, imarray
 
 
@@ -24,7 +25,7 @@ def get_rates(csv_path):
     # From csv get rates and add to a nested ordered dictionary
     lines = np.genfromtxt(csv_path, delimiter=',', dtype=None)
     ncols = len(lines[0])
-    print('ncols:\t\t{0}'.format(ncols))
+    # print('ncols:\t\t{0}'.format(ncols))
     for i in range(len(lines)):
         # print(lines[i])
         if i == 0:
@@ -151,40 +152,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-# print('\n\nCroping Scenarios')
-# tif_folder = r'E:\assist\demo-data\Demo Data for Tool\CroppingScenarios'
-# tif_list = ['cropclass_Baseline.tif',
-#             'cropclass_scenario_O.tif', 'cropclass_scenario_H.tif', 'cropclass_scenario_E.tif']
-# for tif in tif_list:
-#     tif_path = os.path.join(tif_folder, tif)
-#     print('TIF:\t\t{0}'.format(tif_path))
-#     report_array(tif)
-#
-#
-# print('\n\nLand Cover Scenarios')
-# tif_folder = r'E:\assist\demo-data\Demo Data for Tool\LandCoverScenarios'
-# tif_list = ['LC_Baseline.tif',
-#             'LC_scenario_GSN_5.tif', 'LC_scenario_GSN_10.tif', 'LC_scenario_GSN_15.tif', 'LC_scenario_GSN_20.tif', 'LC_scenario_GSN_25.tif', 'LC_scenario_GSN_30.tif',
-#             'LC_scenario_A_P_5.tif', 'LC_scenario_A_P_10.tif', 'LC_scenario_A_P_15.tif', 'LC_scenario_A_P_20.tif', 'LC_scenario_A_P_25.tif', 'LC_scenario_A_P_30.tif',
-#             'LC_scenario_A_NP_5.tif', 'LC_scenario_A_NP_10.tif', 'LC_scenario_A_NP_15.tif', 'LC_scenario_A_NP_20.tif', 'LC_scenario_A_NP_25.tif', 'LC_scenario_A_NP_30.tif']
-# for tif in tif_list:
-#     tif_path = os.path.join(tif_folder, tif)
-#     print('TIF:\t\t{0}'.format(tif_path))
-#     report_array(tif)
-#
-#
-# print('\n\nMasks')
-# tif_folder = r'E:\assist\demo-data\Demo Data for Tool\Masks\Masks'
-# tif_list = ['country.tif', 'euroregion.tif']
-# for tif in tif_list:
-#     tif_path = os.path.join(tif_folder, tif)
-#     print('TIF:\t\t{0}'.format(tif_path))
-#     report_array(tif)
