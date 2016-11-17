@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+__author__ = "smw"
+__email__ = "smw@ceh.ac.uk"
+
+
 import os
 import sys
 import collections
@@ -5,7 +10,7 @@ from PIL import Image
 import numpy as np
 
 
-def report_array(tif):
+def report_tif(tif):
     print('\t{0:<20}:\t{1}'.format('tif', tif))
     im = Image.open(tif)
     imarray = np.array(im)
@@ -16,6 +21,16 @@ def report_array(tif):
     print('\t{0:<20}:\t{1}'.format('np.unique[1]', unique[1]))
     print('\t{0:<20}:\t{1}'.format('np.unique[1].sum', np.sum(unique[1])))
     del im, imarray
+
+
+def report_array(array):
+    print('\t{0:<20}:\t{1}'.format('array', 'array'))
+    print('\t{0:<20}:\t{1}'.format('array.shape', array.shape))
+    print('\t{0:<20}:\t{1}'.format('array.size', array.size))
+    unique = np.unique(array, return_counts=True)
+    print('\t{0:<20}:\t{1}'.format('np.unique[0]', unique[0]))
+    print('\t{0:<20}:\t{1}'.format('np.unique[1]', unique[1]))
+    print('\t{0:<20}:\t{1}'.format('np.unique[1].sum', np.sum(unique[1])))
 
 
 def get_rates(csv_path):
@@ -120,29 +135,78 @@ def main():
     print(regions_dict)
     #
 
+    # for lc_scenario in lc_scenarios_dict:
+    #     print('lc_scenario:\t\t{0}'.format(lc_scenario))
+    #     if lc_scenario == 'baseline':
+    #         tif = lc_scenarios_dict[lc_scenario]['image']
+    #         report_array(tif)
+    #     else:
+    #         for intensity in range(5, 31, 5):
+    #             print('\tintensity:\t\t{0}'.format(intensity))
+    #             tif = lc_scenarios_dict[lc_scenario]['image']
+    #             tif = tif.replace('X', str(intensity))
+    #             print('\ttif:\t\t{0}'.format(tif))
+    #             report_array(tif)
+    #
+    # for cropping_scenario in cropping_scenarios_dict:
+    #     print('croppping_scenario:\t\t{0}'.format(cropping_scenario))
+    #     tif = cropping_scenarios_dict[cropping_scenario]['image']
+    #     report_array(tif)
+    #
+    # for region in regions_dict:
+    #     print('region:\t\t{0}'.format(region))
+    #     tif = regions_dict[region]['image']
+    #     report_array(tif)
 
-    for lc_scenario in lc_scenarios_dict:
-        print('lc_scenario:\t\t{0}'.format(lc_scenario))
-        if lc_scenario == 'baseline':
-            tif = lc_scenarios_dict[lc_scenario]['image']
-            report_array(tif)
-        else:
-            for intensity in range(5, 31, 5):
-                print('\tintensity:\t\t{0}'.format(intensity))
-                tif = lc_scenarios_dict[lc_scenario]['image']
-                tif = tif.replace('X', str(intensity))
-                print('\ttif:\t\t{0}'.format(tif))
-                report_array(tif)
 
-    for cropping_scenario in cropping_scenarios_dict:
-        print('croppping_scenario:\t\t{0}'.format(cropping_scenario))
-        tif = cropping_scenarios_dict[cropping_scenario]['image']
-        report_array(tif)
+    print('\n' * 5)
+    # lc_tif = r'E:\assist\demo-data\Demo Data for Tool\LandCoverScenarios\LC_scenario_A_NP_5.tif'
+    # report_tif(lc_tif)
+    # lc_array = np.array(Image.open(lc_tif))
+    # report_array(lc_array)
+    # cropping_tif = r'E:\assist\demo-data\Demo Data for Tool\CroppingScenarios\cropclass_Baseline.tif'
+    # report_tif(cropping_tif)
+    # cropping_array = np.array(Image.open(cropping_tif))
+    # report_array(cropping_array)
+    # if lc_array.shape == cropping_array.shape:
+    #     array1 = np.where(lc_array == 3, cropping_array, lc_array)
+    #     report_array(array1)
 
-    for region in regions_dict:
-        print('region:\t\t{0}'.format(region))
-        tif = regions_dict[region]['image']
-        report_array(tif)
+
+    rate_dict = {}
+    for crop in range(1,9):
+        print('crop:\t{0}'.format(crop))
+        rate = model_dict['variable1'][crop]
+        print('rate:\t{0}'.format(rate))
+        rate_dict[crop] = rate
+    print(rate_dict)
+
+    cropping_tif = r'E:\assist\demo-data\Demo Data for Tool\CroppingScenarios\cropclass_Baseline.tif'
+    report_tif(cropping_tif)
+    cropping_array = np.array(Image.open(cropping_tif))
+    report_array(cropping_array)
+
+
+    rate_array = np.copy(cropping_array)
+    print(rate_array.dtype)
+    rate_array = np.ma.masked_where(rate_array == 0, rate_array)
+    rate_array = np.ma.masked_where(rate_array == 255, rate_array)
+    print(rate_array)
+    report_array(rate_array)
+    rate_array = rate_array.astype(float)
+    print(rate_array.dtype)
+    report_array(rate_array)
+    print(rate_dict.keys())
+    for i in rate_dict.keys():
+        print(i)
+        print(rate_dict[i])
+        rate_array[rate_array==float(i)] = rate_dict[i]
+    report_array(rate_array)
+
+
+
+    # rate_array = [rate_dict[i] for i in cropping_array]
+    # report_array(rate_array)
 
 
     #TODO Check that arrays are the same shape before combining/calculating
