@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+__author__ = "smw"
+__email__ = "smw@ceh.ac.uk"
+
+
 import os
 import sys
 from PIL import Image
@@ -39,7 +44,7 @@ for tif in tif_list:
 
 
 print('\n\nMasks')
-tif_folder = r'E:\assist\demo-data\Demo Data for Tool\Masks\Masks'
+tif_folder = r'E:\assist\demo-data\Demo Data for Tool\Regions'
 tif_list = ['country.tif', 'euroregion.tif']
 for tif in tif_list:
     tif_path = os.path.join(tif_folder, tif)
