@@ -7,28 +7,76 @@ import os
 import sys
 from PIL import Image
 import numpy as np
+import gdal
 
 
 def report_array(tif):
     im = Image.open(tif_path)
+
+    print('\n')
+    properties = ['format', 'mode', 'size', 'width', 'height', 'palette', 'info']
+    for property in properties:
+        if hasattr(im, property):
+            print('\t{0:20}:\t\t{1}'.format('im.' + property, getattr(im, property)))
+    print('\n')
+
     imarray = np.array(im)
     print('\timarray.shape:\t\t{0}'.format(imarray.shape))
     print('\timarray.size:\t\t{0}'.format(imarray.size))
-    unique = np.unique(imarray, return_counts=True)
-    print('\tnp.unique[0]:\t\t{0}'.format(unique[0]))
-    print('\tnp.unique[1]:\t\t{0}'.format(unique[1]))
-    print('\tnp.unique[1].sum:\t\t{0}'.format(np.sum(unique[1])))
+    print('\timarray.dtype:\t\t{0}'.format(imarray.dtype))
+    unique, counts = np.unique(imarray, return_counts=True)
+    print('\tunique[0]:\t\t\t{0}'.format(unique))
+    print('\tcounts[1]:\t\t\t{0}'.format(counts))
+    print('\tdict:\t\t\t\t{0}'.format(dict(zip(unique, counts))))
+    print('\tcounts.sum:\t\t\t{0}'.format(np.sum(counts)))
+    print imarray
+    print imarray[999]
+
+    # im.show()
+
+    # print(imarray[999,])
+    # unique, counts = np.unique(imarray[999,], return_counts=True)
+    # print(dict(zip(unique, counts)))
+
     del im, imarray
 
+    gtif = gdal.Open(tif_path)
+    print('\tGetMetdata():\t\t{0}'.format(gtif.GetMetadata()))
+    print('\tRasterCount:\t\t{0}'.format(gtif.RasterCount))
+    imarray = np.array(gtif.GetRasterBand(1).ReadAsArray())
+    print('\timarray.shape:\t\t{0}'.format(imarray.shape))
+    print('\timarray.size:\t\t{0}'.format(imarray.size))
+    print('\timarray.dtype:\t\t{0}'.format(imarray.dtype))
+    unique, counts = np.unique(imarray, return_counts=True)
+    print('\tunique[0]:\t\t\t{0}'.format(unique))
+    print('\tcounts[1]:\t\t\t{0}'.format(counts))
+    print('\tdict:\t\t\t\t{0}'.format(dict(zip(unique, counts))))
+    print('\tcounts.sum:\t\t\t{0}'.format(np.sum(counts)))
+    print imarray
+    print imarray[999]
+
+    # gtif.show()
+
+    # print(imarray[999,])
+    # unique, counts = np.unique(imarray[999,], return_counts=True)
+    # print(dict(zip(unique, counts)))
+
+    gtif = None
 
 print('\n\nCroping Scenarios')
 tif_folder = r'E:\assist\demo-data\Demo Data for Tool\CroppingScenarios'
-tif_list = ['cropclass_Baseline.tif',
-            'cropclass_scenario_O.tif', 'cropclass_scenario_H.tif', 'cropclass_scenario_E.tif']
+# tif_list = ['cropclass_Baseline.tif',
+#             'cropclass_scenario_O.tif', 'cropclass_scenario_H.tif', 'cropclass_scenario_E.tif']
+# tif_list = ['cropclass_Baseline.tif']
+tif_list = ['cropclass_scenario_E.tif']
 for tif in tif_list:
     tif_path = os.path.join(tif_folder, tif)
     print('TIF:\t\t{0}'.format(tif_path))
     report_array(tif)
+
+
+
+sys.exit()
 
 
 print('\n\nLand Cover Scenarios')
