@@ -18,6 +18,10 @@ def report_array(tif):
     for property in properties:
         if hasattr(im, property):
             print('\t{0:20}:\t\t{1}'.format('im.' + property, getattr(im, property)))
+    tiles = im.tile
+    print('\t{0:<20}:\t\t{1}'.format('im.tile', tiles))
+    for tile in range(len(tiles)):
+        print('\t\t{0:<20}:\t\t{1}'.format('im.tile[{0}]'.format(tile), im.tile[tile]))
     print('\n')
 
     imarray = np.array(im)
@@ -67,8 +71,8 @@ print('\n\nCroping Scenarios')
 tif_folder = r'E:\assist\demo-data\Demo Data for Tool\CroppingScenarios'
 # tif_list = ['cropclass_Baseline.tif',
 #             'cropclass_scenario_O.tif', 'cropclass_scenario_H.tif', 'cropclass_scenario_E.tif']
-# tif_list = ['cropclass_Baseline.tif']
-tif_list = ['cropclass_scenario_E.tif']
+tif_list = ['cropclass_Baseline.tif']
+# tif_list = ['cropclass_scenario_E.tif']
 for tif in tif_list:
     tif_path = os.path.join(tif_folder, tif)
     print('TIF:\t\t{0}'.format(tif_path))
